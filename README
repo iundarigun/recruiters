@@ -1,0 +1,10 @@
+#Docker do arquiva
+Para subir por docker com o Archiva, pode executar o seguinte comando:
+docker run --name archiva -v /home/usuario/tmp/archiva:/var/archiva -p 9090:8080 -d ninjaben/archiva-docker
+
+Basicamente, estamos subindo na porta 9090 um arquiva, que vai usar como pasta para salvar as libs a pasta local /home/usuario/tmp/arquiva (cria antes de subir o container).
+Uma vez criado esse container, quando reiniciar a máquina, só precisa rodar o comando seguinte para inicá-lo de novo:
+docker start archiva
+
+#Criar arquivo
+Lembre de entrar na url http://localhost:9090/ e criar um usuário administrador.
