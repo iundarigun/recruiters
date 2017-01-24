@@ -1,0 +1,3 @@
+rootProject.name = 'recruiters-web'
+include ":recruiters-common"
+project(":recruiters-common").projectDir = file("../recruiters-common")
