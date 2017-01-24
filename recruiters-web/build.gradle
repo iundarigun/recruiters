@@ -14,16 +14,21 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
-sourceCompatibility = 1.8
-
-jar {
-	baseName = 'Recruiters'
-	version = '0.0.1-SNAPSHOT'
+repositories {
+	maven{
+		url = "http://central.maven.org/maven2/"
+	}
+	maven{
+		url = "http://localhost:9090/repository/internal/"
+	}
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 dependencies{
-	compile project(':recruiters-common')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('br.com.devcave.recruiters:recruiters-common:0.0.1')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

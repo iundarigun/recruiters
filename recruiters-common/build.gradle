@@ -3,9 +3,11 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 compileJava.options.encoding = 'ISO-8859-1'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
-    maven { url 'http://nexus.pagseguro.intranet/repository/public' }
+    mavenCentral()
 }
 
 ext {
@@ -17,14 +19,14 @@ dependencies {
 }
 
 uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: "http://localhost/arquiva") {
-//                authentication(userName: "admin", password: "admin123")
-//            }
-//            pom.version = "${project.version}"
-//            pom.artifactId = "recruiters-commom"
-//            pom.groupId = "br.com.devcave.recruiters"
-//        }
-//    }
+    repositories {
+        mavenDeployer {
+            repository(url: "http://localhost:9090/repository/internal/") {
+                authentication(userName: "admin", password: "admin123")
+            }
+            pom.version = "${project.version}"
+            pom.artifactId = "recruiters-common"
+            pom.groupId = "br.com.devcave.recruiters"
+        }
+    }
 }
