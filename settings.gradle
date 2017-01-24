@@ -1,4 +1,0 @@
-rootProject.name = 'recruiters'
-
-include 'recruiters-common',
-        'recruiters-web'

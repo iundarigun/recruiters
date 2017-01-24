@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+compileJava.options.encoding = 'ISO-8859-1'
+
+repositories {
+    maven { url 'http://nexus.pagseguro.intranet/repository/public' }
+}
+
+ext {
+    springBootVersion = '1.3.8.RELEASE'
+}
+
+dependencies {
+    compile ('org.apache.commons:commons-lang3:3.5')
+}
+
+uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: "http://localhost/arquiva") {
+//                authentication(userName: "admin", password: "admin123")
+//            }
+//            pom.version = "${project.version}"
+//            pom.artifactId = "recruiters-commom"
+//            pom.groupId = "br.com.devcave.recruiters"
+//        }
+//    }
+}
