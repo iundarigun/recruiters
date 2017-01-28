@@ -21,6 +21,12 @@ jar {
 
 sourceCompatibility = 1.8
 
+ext{
+	lombokVersion = '1.16.12'
+	mysqlVersion = '6.0.5'
+	slf4jVersion = '1.7.22'
+}
+
 repositories {
 	mavenCentral()
 }
@@ -29,5 +35,12 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+
+	compile group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+	compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+	compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
