@@ -6,5 +6,20 @@
 </head>
 <body>
     <h1>Novo Candidato</h1>
+    <form method="post" action="/candidate/new" >
+        <div>
+            <label for="name">Nome</label>
+            <input id="name" name="name" type="text" maxlength="255"/>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="text" maxlength="255"/>
+        </div>
+        <div>
+            <label for="phoneNumber">Telefone</label>
+            <input id="phoneNumber" name="phoneNumber" type="text" maxlength="20"/>
+        </div>
+        <input type="submit" value="Salvar"/>
+    </form>
 </body>
 </html>

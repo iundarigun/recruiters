@@ -5,22 +5,24 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 /**
  * Entidade abstrata base do resto. Mesmo que não tenha método abstrato,
  * é bom para garantir que ninguem vai instanciar um objeto
  */
+@MappedSuperclass
 @Data
 @ToString
 public abstract class BaseEntity {
 
     @Column(name="dat_creation", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime creationDate;
+    private Calendar creationDate;
 
-    @Column(name="dat_creation")
+    @Column(name="dat_update")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime updateDate;
+    private Calendar updateDate;
 
     @Version
     @Column(name="num_version", nullable = false)
@@ -30,11 +32,11 @@ public abstract class BaseEntity {
 
     @PrePersist
     public void prePersist(){
-        this.creationDate = LocalDateTime.now();
+        this.creationDate = Calendar.getInstance();
     }
 
     @PreUpdate
     public void preUpdate(){
-        this.updateDate = LocalDateTime.now();
+        this.updateDate = Calendar.getInstance();
     }
 }
