@@ -2,13 +2,14 @@ package br.com.devcave.recruiters.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "area")
-@Data
+@Getter
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class AreaEntity extends BaseEntity{

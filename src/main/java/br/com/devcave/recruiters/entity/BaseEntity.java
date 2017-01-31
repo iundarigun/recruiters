@@ -1,6 +1,7 @@
 package br.com.devcave.recruiters.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.Calendar;
  * é bom para garantir que ninguem vai instanciar um objeto
  */
 @MappedSuperclass
-@Data
+@Getter
 @ToString
 public abstract class BaseEntity {
 

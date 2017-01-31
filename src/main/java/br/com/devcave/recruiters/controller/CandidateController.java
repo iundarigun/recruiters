@@ -7,8 +7,10 @@ import br.com.devcave.recruiters.vo.CandidateSearchVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ public class CandidateController {
     private static final String CANDIDATE_DEFAULT = "/";
     private static final String CANDIDATE_SEARCH = "/search";
     private static final String CANDIDATE_NEW = "/new";
+    private static final String CANDIDATE_DETAILS = "/details";
 
     private static final String CANDIDATE_SEARCH_RESOURCE = "candidate/search";
     private static final String CANDIDATE_NEW_RESOURCE = "candidate/new";
@@ -53,5 +56,15 @@ public class CandidateController {
 
         return CANDIDATE_SEARCH_RESOURCE;
     }
+
+    @RequestMapping(value = CANDIDATE_DETAILS, method = RequestMethod.GET)
+    @ResponseBody
+    public String getCandidate(Long id) {
+
+        CandidateEntity candidate = candidateDAO.getOne(id);
+
+        return candidate.toString();
+    }
+
 
 }
