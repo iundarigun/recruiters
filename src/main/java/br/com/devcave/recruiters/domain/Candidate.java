@@ -1,11 +1,24 @@
 package br.com.devcave.recruiters.domain;
 
+import java.util.HashSet;
+import java.util.Set;
 
-import lombok.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "candidate")
@@ -33,6 +46,16 @@ public class Candidate extends BaseEntity {
     @Size(max = 20)
     private String phoneNumber;
 
-    // TODO relacionamento ManyToMany
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable(name = "CANDIDATE_AREA", //
+            joinColumns = { @JoinColumn(name = "id_candidate", referencedColumnName = "id_candidate") }, //
+            inverseJoinColumns = { @JoinColumn(name = "id_area", referencedColumnName = "id_area") })
+    private Set<Area> areaList = new HashSet<>();
+
+    public void addArea(Area area) {
+        if (this.areaList == null) {
+            this.areaList = new HashSet<>();
+        }
+    }
 
 }
