@@ -1,6 +1,5 @@
-package br.com.devcave.recruiters.entity;
+package br.com.devcave.recruiters.domain;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class AreaEntity extends BaseEntity{
+public class Area extends BaseEntity {
 
     @Id
     @GeneratedValue

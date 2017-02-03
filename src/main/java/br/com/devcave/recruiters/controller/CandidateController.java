@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.devcave.recruiters.dao.CandidateDAO;
-import br.com.devcave.recruiters.entity.CandidateEntity;
+import br.com.devcave.recruiters.repository.CandidateRepository;
+import br.com.devcave.recruiters.domain.Candidate;
 import br.com.devcave.recruiters.service.CandidateService;
-import br.com.devcave.recruiters.vo.CandidateFilter;
+import br.com.devcave.recruiters.dto.CandidateFilter;
 
 @Controller
 @RequestMapping("/candidate")
@@ -28,7 +28,7 @@ public class CandidateController {
     private static final String CANDIDATE_NEW_RESOURCE = "candidate/new";
 
     @Autowired
-    private CandidateDAO candidateDAO;
+    private CandidateRepository candidateRepository;
 
     @Autowired
     private CandidateService candidateService;
@@ -47,12 +47,12 @@ public class CandidateController {
     }
 
     @RequestMapping(value = CANDIDATE_NEW, method = RequestMethod.POST)
-    public String saveCandidate(@Valid CandidateEntity candidateEntity, BindingResult result) {
+    public String saveCandidate(@Valid Candidate candidate, BindingResult result) {
         if (result.hasErrors()) {
             return CANDIDATE_NEW_RESOURCE;
         }
 
-        candidateDAO.save(candidateEntity);
+        candidateRepository.save(candidate);
 
         return CANDIDATE_SEARCH_RESOURCE;
     }
@@ -61,7 +61,7 @@ public class CandidateController {
     @ResponseBody
     public String getCandidate(Long id) {
 
-        CandidateEntity candidate = candidateDAO.getOne(id);
+        Candidate candidate = candidateRepository.getOne(id);
 
         return candidate.toString();
     }

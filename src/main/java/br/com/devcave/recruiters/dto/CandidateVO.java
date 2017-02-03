@@ -1,4 +1,4 @@
-package br.com.devcave.recruiters.vo;
+package br.com.devcave.recruiters.dto;
 
 import lombok.Data;
 import lombok.ToString;

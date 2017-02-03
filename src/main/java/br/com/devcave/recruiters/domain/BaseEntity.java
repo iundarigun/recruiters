@@ -1,11 +1,10 @@
-package br.com.devcave.recruiters.entity;
+package br.com.devcave.recruiters.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 import java.util.Calendar;
 
 /**

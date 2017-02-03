@@ -1,4 +1,4 @@
-package br.com.devcave.recruiters.entity;
+package br.com.devcave.recruiters.domain;
 
 
 import lombok.*;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class CandidateEntity extends BaseEntity {
+public class Candidate extends BaseEntity {
 
     @Id
     @GeneratedValue
