@@ -1,19 +1,19 @@
 package br.com.devcave.recruiters.controller;
 
-import br.com.devcave.recruiters.dao.CandidateDAO;
-import br.com.devcave.recruiters.entity.CandidateEntity;
-import br.com.devcave.recruiters.service.CandidateService;
-import br.com.devcave.recruiters.vo.CandidateSearchVO;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+import br.com.devcave.recruiters.dao.CandidateDAO;
+import br.com.devcave.recruiters.entity.CandidateEntity;
+import br.com.devcave.recruiters.service.CandidateService;
+import br.com.devcave.recruiters.vo.CandidateFilter;
 
 @Controller
 @RequestMapping("/candidate")
@@ -33,10 +33,10 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService;
 
-    @RequestMapping(value = {"", CANDIDATE_DEFAULT, CANDIDATE_SEARCH})
-    public ModelAndView search(CandidateSearchVO candidateSearchVO) {
+    @RequestMapping(value = { "", CANDIDATE_DEFAULT, CANDIDATE_SEARCH })
+    public ModelAndView search(CandidateFilter candidateFilter) {
         ModelAndView modelAndView = new ModelAndView(CANDIDATE_SEARCH_RESOURCE);
-        modelAndView.addObject("list", candidateService.search(candidateSearchVO));
+        modelAndView.addObject("list", candidateService.search(candidateFilter));
         return modelAndView;
     }
 
@@ -65,6 +65,5 @@ public class CandidateController {
 
         return candidate.toString();
     }
-
 
 }

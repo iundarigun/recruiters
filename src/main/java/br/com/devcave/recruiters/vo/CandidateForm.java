@@ -1,11 +1,13 @@
 package br.com.devcave.recruiters.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class CandidateSearchVO {
+@AllArgsConstructor
+public class CandidateForm {
     private String name;
     private String email;
 }

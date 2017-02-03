@@ -1,5 +1,5 @@
 package br.com.devcave.recruiters.vo;
 
-public class CandidateFilterVO {
+public class CandidateFilter {
 
 }

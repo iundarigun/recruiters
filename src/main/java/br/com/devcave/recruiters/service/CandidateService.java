@@ -1,10 +1,10 @@
 package br.com.devcave.recruiters.service;
 
-import br.com.devcave.recruiters.entity.CandidateEntity;
-import br.com.devcave.recruiters.vo.CandidateSearchVO;
-
 import java.util.List;
 
+import br.com.devcave.recruiters.entity.CandidateEntity;
+import br.com.devcave.recruiters.vo.CandidateFilter;
+
 public interface CandidateService {
-    List<CandidateEntity> search(CandidateSearchVO candidateSearchVO);
+    List<CandidateEntity> search(CandidateFilter candidateFilter);
 }
