@@ -7,4 +7,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long>, Can
 
     Candidate findByEmail(String email);
 
+    Long countByEmailIgnoreCase(String email);
+
+    Long countByEmailIgnoreCaseAndIdNot(String email, Long id);
 }

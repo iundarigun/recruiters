@@ -39,9 +39,14 @@ public class CandidateController {
     private AreaService areaService;
 
     @RequestMapping(value = { "", CANDIDATE_DEFAULT, CANDIDATE_SEARCH }, method = RequestMethod.GET)
-    public ModelAndView search(CandidateFilter candidateFilter) {
+    public ModelAndView search(CandidateFilter candidateFilter, Boolean search) {
         ModelAndView modelAndView = new ModelAndView(CANDIDATE_SEARCH_RESOURCE);
-//        modelAndView.addObject("list", candidateService.search(candidateFilter));
+        modelAndView.addObject("areaList", areaService.findAll());
+
+        if (Boolean.TRUE.equals(search)){
+            modelAndView.addObject("resultList", candidateService.search(candidateFilter));
+        }
+
         return modelAndView;
     }
 
@@ -53,14 +58,17 @@ public class CandidateController {
     }
 
     @RequestMapping(value = CANDIDATE_NEW, method = RequestMethod.POST)
-    public ModelAndView saveCandidate(MultipartFile curriculum, @Valid CandidateForm candidateForm, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView saveCandidate(@Valid CandidateForm candidateForm, BindingResult result,
+                                      RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return newCandidate(candidateForm);
         }
 
+        candidateService.save(candidateForm);
 
         return new ModelAndView("redirect:" + CANDIDATE_BASE + CANDIDATE_SEARCH);
     }
+
 
 
 }

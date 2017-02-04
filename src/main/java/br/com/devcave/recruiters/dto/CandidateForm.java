@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CandidateForm {
+
     private Long id;
     @NotBlank
     @Size(max=255)
@@ -26,6 +28,8 @@ public class CandidateForm {
     private String email;
     @Size(max=20)
     private String phoneNumber;
+
+    private MultipartFile curriculum;
     @NotEmpty
     private List<Long> area;
 }

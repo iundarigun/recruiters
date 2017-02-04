@@ -1,10 +1,12 @@
 package br.com.devcave.recruiters.service;
 
-import java.util.List;
-
-import br.com.devcave.recruiters.domain.Candidate;
 import br.com.devcave.recruiters.dto.CandidateFilter;
+import br.com.devcave.recruiters.dto.CandidateForm;
+import br.com.devcave.recruiters.dto.CandidateVO;
+import org.springframework.data.domain.Page;
 
 public interface CandidateService {
-    List<Candidate> search(CandidateFilter candidateFilter);
+    Page<CandidateVO> search(CandidateFilter candidateFilter);
+
+    void save(CandidateForm candidateForm);
 }

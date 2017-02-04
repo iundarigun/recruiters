@@ -59,6 +59,14 @@ public class Candidate extends BaseEntity {
         if (this.areaList == null) {
             this.areaList = new HashSet<>();
         }
+        this.areaList.add(area);
     }
 
+    public void update(String name, String email, String phoneNumber, byte[] curriculum){
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.curriculum = curriculum;
+
+    }
 }

@@ -1,12 +1,11 @@
 package br.com.devcave.recruiters.repository;
 
-import java.util.List;
-
-import br.com.devcave.recruiters.domain.Candidate;
 import br.com.devcave.recruiters.dto.CandidateFilter;
+import br.com.devcave.recruiters.dto.CandidateVO;
+import org.springframework.data.domain.Page;
 
 public interface CandidateRepositoryCustom {
 
-    List<Candidate> findByFilter (CandidateFilter filterVO);
+    Page<CandidateVO> findByFilter (CandidateFilter filterVO);
 
 }

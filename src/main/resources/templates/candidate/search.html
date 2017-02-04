@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Recruiters - Pesquisa de Candidatos</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
 </head>
 <body>
+<div class="container">
     <h1>Pesquisa de candidatos</h1>
+    <form method="get" th:action="@{/candidate/search}" th:object="${candidateFilter}">
+        <div class="form-group">
+            <label th:for="name">Nome</label>
+            <input type="text" th:field="*{name}" class="form-control" maxlength="255"/>
+        </div>
+        <div class="form-group">
+            <label th:for="email">Email</label>
+            <input type="text" th:field="*{email}" class="form-control" maxlength="255"/>
+        </div>
+        <div class="form-group">
+            <label th:for="area">area</label>
+            <select class="form-control" th:field="*{area}">
+                <option value="" th:text="Todos"/>
+                <option th:each="area : ${areaList}"
+                        th:value="${area.id}"
+                        th:text="${area.name}"/>
+            </select>
+        </div>
+        <input type="hidden" id="search" name="search" value="true"/>
+        <button type="submit" class="btn btn-primary" th:text="Pesquisar"/>
+        <a class="btn btn-default" th:href="@{/candidate/new}">Novo</a>
+    </form>
+</div>
+
+<div class="container" th:if="${resultList != null and resultList.hasContent()}">
+    <br/>
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+        </tr>
+        <tr th:each="candidate : ${resultList.content}">
+            <td th:text="${candidate.name }"/>
+            <td th:text="${candidate.email }"/>
+            <td th:text="${candidate.phoneNumber}"/>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
