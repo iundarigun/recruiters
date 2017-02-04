@@ -46,6 +46,9 @@ public class Candidate extends BaseEntity {
     @Size(max = 20)
     private String phoneNumber;
 
+    @Column(name ="fil_curriculum")
+    private byte[] curriculum;
+
     @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "CANDIDATE_AREA", //
             joinColumns = { @JoinColumn(name = "id_candidate", referencedColumnName = "id_candidate") }, //

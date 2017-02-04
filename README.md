@@ -14,3 +14,11 @@ use recruiters
 show tables;
 - Levantar a instancia de docker (após reiniciar)
 docker start mysql-local
+- Inserts inicias na tabela area:
+insert into area (nam_area, dat_creation, num_version) values('Java', curdate(), 0);
+insert into area (nam_area, dat_creation, num_version) values('DotNet', curdate(), 0);
+insert into area (nam_area, dat_creation, num_version) values('Android', curdate(), 0);
+insert into area (nam_area, dat_creation, num_version) values('IPhone', curdate(), 0);
+insert into area (nam_area, dat_creation, num_version) values('DBA', curdate(), 0);
+insert into area (nam_area, dat_creation, num_version) values('Infra', curdate(), 0);
+
