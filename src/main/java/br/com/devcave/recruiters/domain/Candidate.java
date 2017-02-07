@@ -10,10 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.EqualsAndHashCode;
@@ -46,7 +48,16 @@ public class Candidate extends BaseEntity {
     @Size(max = 20)
     private String phoneNumber;
 
-    @Column(name ="fil_curriculum")
+    @Column(name = "skypeUser", length = 255)
+    @Size(max = 255)
+    private String skypeUser;
+
+    @Column(name = "nam_curriculum", length = 255)
+    @Size(max = 255)
+    private String fileName;
+
+    @Column(name = "fil_curriculum")
+    @Lob
     private byte[] curriculum;
 
     @ManyToMany(cascade = CascadeType.REFRESH)
@@ -62,11 +73,16 @@ public class Candidate extends BaseEntity {
         this.areaList.add(area);
     }
 
-    public void update(String name, String email, String phoneNumber, byte[] curriculum){
+    public void update(String name, String email, String phoneNumber, String skypeUser, String fileName,
+            byte[] curriculum) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.curriculum = curriculum;
+        this.skypeUser = skypeUser;
+        if (StringUtils.isNotBlank(fileName)) {
+            this.fileName = fileName;
+            this.curriculum = curriculum;
+        }
 
     }
 }

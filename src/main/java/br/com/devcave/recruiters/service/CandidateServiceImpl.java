@@ -53,7 +53,8 @@ public class CandidateServiceImpl implements CandidateService {
         }
         try {
             candidate.update(candidateForm.getName(), candidateForm.getEmail(), candidateForm.getPhoneNumber(),
-                    candidateForm.getCurriculum() == null ? null : candidateForm.getCurriculum().getBytes());
+                    candidateForm.getSkypeUser(),
+                    candidateForm.getCurriculum() == null ? null : candidateForm.getCurriculum().getOriginalFilename(), candidateForm.getCurriculum() == null ? null : candidateForm.getCurriculum().getBytes());
             candidateForm.getArea().forEach(a->candidate.addArea(areaRepository.findOne(a)));
         } catch (IOException e) {
             log.error("M=save, message={}",e.getMessage(), e);
