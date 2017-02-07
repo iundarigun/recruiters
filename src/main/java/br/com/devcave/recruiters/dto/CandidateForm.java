@@ -21,7 +21,7 @@ import lombok.ToString;
 public class CandidateForm {
 
     private Long id;
-    @NotBlank
+    @NotBlank(message = "{recruiters.candidate.validation.name.empty}")
     @Size(max = 255)
     private String name;
     @Email
@@ -32,8 +32,6 @@ public class CandidateForm {
     private String phoneNumber;
     @Size(max = 255)
     private String skypeUser;
-
-    private MultipartFile curriculum;
     @NotEmpty
     private List<Long> area;
 }

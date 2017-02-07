@@ -10,6 +10,11 @@
 </head>
 <body>
 <div class="container">
+    <div th:if="${ERROR_MESSAGES != null and !ERROR_MESSAGES.isEmpty()}" >
+        <th:block th:each="error : ${ERROR_MESSAGES}" >
+            <div th:text="*{error}" class="alert alert-danger" />
+        </th:block>
+    </div>
     <h1>Novo Candidato</h1>
     <form method="post" th:action="@{/candidate/new}" th:object="${candidateForm}"
           enctype="multipart/form-data">
@@ -36,7 +41,7 @@
                 <input type="checkbox" th:field="*{area}" th:value="${area.id}"/>
             </th:block>
         </div>
-        <input type="submit" value="Salvar" class="btn btn-success"/>
+        <button type="submit" th:text="#{recruiters.generic.save}" class="btn btn-success"/>
     </form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

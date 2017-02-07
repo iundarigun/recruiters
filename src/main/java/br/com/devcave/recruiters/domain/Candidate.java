@@ -3,18 +3,10 @@ package br.com.devcave.recruiters.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import br.com.devcave.recruiters.dto.CandidateForm;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -48,7 +40,7 @@ public class Candidate extends BaseEntity {
     @Size(max = 20)
     private String phoneNumber;
 
-    @Column(name = "skypeUser", length = 255)
+    @Column(name = "des_skype", length = 255)
     @Size(max = 255)
     private String skypeUser;
 
@@ -56,8 +48,9 @@ public class Candidate extends BaseEntity {
     @Size(max = 255)
     private String fileName;
 
-    @Column(name = "fil_curriculum")
     @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "fil_curriculum")
     private byte[] curriculum;
 
     @ManyToMany(cascade = CascadeType.REFRESH)
@@ -73,16 +66,22 @@ public class Candidate extends BaseEntity {
         this.areaList.add(area);
     }
 
-    public void update(String name, String email, String phoneNumber, String skypeUser, String fileName,
-            byte[] curriculum) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.skypeUser = skypeUser;
-        if (StringUtils.isNotBlank(fileName)) {
-            this.fileName = fileName;
-            this.curriculum = curriculum;
+    public void updateBasicInformations(CandidateForm candidateForm) {
+        this.name = candidateForm.getName();
+        this.email = candidateForm.getEmail();
+        this.phoneNumber = candidateForm.getPhoneNumber();
+        this.skypeUser = candidateForm.getSkypeUser();
+        if (this.areaList != null){
+            this.areaList.clear();
         }
+        candidateForm.getArea().forEach(a -> this.addArea(new Area(a)));
 
     }
+
+    public void updateCurriculum(String fileName, byte[] curriculum){
+       this.fileName = fileName;
+       this.curriculum = curriculum;
+    }
+
+
 }

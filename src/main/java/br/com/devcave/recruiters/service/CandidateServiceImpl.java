@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.devcave.recruiters.domain.Candidate;
 import br.com.devcave.recruiters.dto.CandidateFilter;
 import br.com.devcave.recruiters.repository.CandidateRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,7 +36,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     @Transactional(readOnly = false)
-    public void save(CandidateForm candidateForm) {
+    public void save(CandidateForm candidateForm, MultipartFile curriculum) {
         final Candidate candidate;
 
         // Validar se o email já existe
@@ -51,11 +52,11 @@ public class CandidateServiceImpl implements CandidateService {
         } else {
             candidate = candidateRepository.findOne(candidateForm.getId());
         }
+        candidate.updateBasicInformations(candidateForm);
         try {
-            candidate.update(candidateForm.getName(), candidateForm.getEmail(), candidateForm.getPhoneNumber(),
-                    candidateForm.getSkypeUser(),
-                    candidateForm.getCurriculum() == null ? null : candidateForm.getCurriculum().getOriginalFilename(), candidateForm.getCurriculum() == null ? null : candidateForm.getCurriculum().getBytes());
-            candidateForm.getArea().forEach(a->candidate.addArea(areaRepository.findOne(a)));
+            if (curriculum!=null){
+                candidate.updateCurriculum(curriculum.getName(), curriculum.getBytes());
+            }
         } catch (IOException e) {
             log.error("M=save, message={}",e.getMessage(), e);
             throw new CurriculumException();
