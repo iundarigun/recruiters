@@ -1,6 +1,7 @@
 package br.com.devcave.recruiters.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -59,11 +60,12 @@ public class Candidate extends BaseEntity {
             inverseJoinColumns = { @JoinColumn(name = "id_area", referencedColumnName = "id_area") })
     private Set<Area> areaList = new HashSet<>();
 
-    public void addArea(Area area) {
+    public void addAreas(List<Area> area) {
         if (this.areaList == null) {
             this.areaList = new HashSet<>();
         }
-        this.areaList.add(area);
+        this.areaList.clear();
+        this.areaList.addAll(area);
     }
 
     public void updateBasicInformations(CandidateForm candidateForm) {
@@ -71,12 +73,9 @@ public class Candidate extends BaseEntity {
         this.email = candidateForm.getEmail();
         this.phoneNumber = candidateForm.getPhoneNumber();
         this.skypeUser = candidateForm.getSkypeUser();
-        if (this.areaList != null){
-            this.areaList.clear();
-        }
-        candidateForm.getArea().forEach(a -> this.addArea(new Area(a)));
-
     }
+
+
 
     public void updateCurriculum(String fileName, byte[] curriculum){
        this.fileName = fileName;

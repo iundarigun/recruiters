@@ -4,34 +4,38 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Recruiters - Novo Candidato</title>
+    <title>
+        <th:block th:text="#{recruiters.generic.title}"/>
+        -
+        <th:block th:text="#{recruiters.candidate.new}"/>
+    </title>
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
-    <div th:if="${ERROR_MESSAGES != null and !ERROR_MESSAGES.isEmpty()}" >
-        <th:block th:each="error : ${ERROR_MESSAGES}" >
-            <div th:text="*{error}" class="alert alert-danger" />
+    <div th:if="${ERROR_MESSAGES != null and !ERROR_MESSAGES.isEmpty()}">
+        <th:block th:each="error : ${ERROR_MESSAGES}">
+            <div th:text="*{error}" class="alert alert-danger"/>
         </th:block>
     </div>
-    <h1>Novo Candidato</h1>
+    <h1 th:text="#{recruiters.candidate.new}"/>
     <form method="post" th:action="@{/candidate/new}" th:object="${candidateForm}"
           enctype="multipart/form-data">
         <div class="form-group">
-            <label th:for="name">Nome</label>
+            <label th:for="name" th:text="#{recruiters.candidate.name}"/>
             <input type="text" th:field="*{name}" class="form-control" maxlength="255"/>
         </div>
         <div class="form-group">
-            <label th:for="email">Email</label>
+            <label th:for="email" th:text="#{recruiters.candidate.email}"/>
             <input type="text" th:field="*{email}" class="form-control" maxlength="255"/>
         </div>
         <div class="form-group">
-            <label th:for="phoneNumber">Telefone</label>
+            <label th:for="phoneNumber" th:text="#{recruiters.candidate.phone-number}"/>
             <input type="text" th:field="*{phoneNumber}" class="form-control" maxlength="20"/>
         </div>
         <div class="form-group">
-            <label for="curriculum">Currículo</label>
+            <label for="curriculum" th:text="#{recruiters.candidate.curriculum}"/>
             <input type="file" id="curriculum" name="curriculum" class="form-control"/>
         </div>
         <div class="form-group">

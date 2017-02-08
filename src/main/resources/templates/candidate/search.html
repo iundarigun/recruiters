@@ -4,12 +4,14 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Recruiters - Pesquisa de Candidatos</title>
+    <title><th:block th:text="#{recruiters.generic.title}"/> - <th:block th:text="#{recruiters.candidate.search}"/></title>
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
+    <div th:if="${SUCCESS_MESSAGE != null}" th:text="${SUCCESS_MESSAGE}" class="alert alert-success"/>
+
     <h1>Pesquisa de candidatos</h1>
     <form method="get" th:action="@{/candidate/search}" th:object="${candidateFilter}">
         <div class="form-group">

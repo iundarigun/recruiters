@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import br.com.devcave.recruiters.dto.CandidateForm;
+import br.com.devcave.recruiters.exception.RecruitersGenericException;
 import br.com.devcave.recruiters.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -22,8 +23,7 @@ import br.com.devcave.recruiters.service.CandidateService;
 import br.com.devcave.recruiters.dto.CandidateFilter;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(CandidateController.CANDIDATE_BASE)
@@ -43,6 +43,7 @@ public class CandidateController extends BaseController {
 
     @Autowired
     private AreaService areaService;
+
 
     @RequestMapping(value = {"", CANDIDATE_DEFAULT, CANDIDATE_SEARCH}, method = RequestMethod.GET)
     public ModelAndView search(CandidateFilter candidateFilter, Boolean search) {
@@ -72,8 +73,14 @@ public class CandidateController extends BaseController {
             request.setAttribute(ERROR_MESSAGES,errorList);
             return newCandidate(candidateForm);
         }
+        try {
+            candidateService.save(candidateForm, curriculum);
+        }catch(RecruitersGenericException e){
+            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(e.getMessage()));
+            return newCandidate(candidateForm);
+        }
 
-        candidateService.save(candidateForm, curriculum);
+        redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, getMessage("recruiters.candidate.new.success"));
 
         return new ModelAndView("redirect:" + CANDIDATE_BASE + CANDIDATE_SEARCH);
     }

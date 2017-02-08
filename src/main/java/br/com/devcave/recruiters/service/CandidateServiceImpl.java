@@ -1,7 +1,10 @@
 package br.com.devcave.recruiters.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import br.com.devcave.recruiters.domain.Area;
 import br.com.devcave.recruiters.dto.CandidateForm;
 import br.com.devcave.recruiters.dto.CandidateVO;
 import br.com.devcave.recruiters.exception.CurriculumException;
@@ -53,12 +56,13 @@ public class CandidateServiceImpl implements CandidateService {
             candidate = candidateRepository.findOne(candidateForm.getId());
         }
         candidate.updateBasicInformations(candidateForm);
+        candidate.addAreas(candidateForm.getArea().stream().map(a -> areaRepository.findOne(a)).collect(Collectors.toList()));
         try {
-            if (curriculum!=null){
+            if (curriculum != null) {
                 candidate.updateCurriculum(curriculum.getName(), curriculum.getBytes());
             }
         } catch (IOException e) {
-            log.error("M=save, message={}",e.getMessage(), e);
+            log.error("M=save, message={}", e.getMessage(), e);
             throw new CurriculumException();
         }
         candidateRepository.save(candidate);
