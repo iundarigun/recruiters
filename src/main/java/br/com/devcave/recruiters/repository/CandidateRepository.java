@@ -1,7 +1,8 @@
 package br.com.devcave.recruiters.repository;
 
-import br.com.devcave.recruiters.domain.Candidate;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import br.com.devcave.recruiters.domain.Candidate;
 
 public interface CandidateRepository extends JpaRepository<Candidate, Long>, CandidateRepositoryCustom {
 

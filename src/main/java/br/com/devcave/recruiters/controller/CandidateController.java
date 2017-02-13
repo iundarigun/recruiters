@@ -1,29 +1,27 @@
 package br.com.devcave.recruiters.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import br.com.devcave.recruiters.dto.CandidateFilter;
 import br.com.devcave.recruiters.dto.CandidateForm;
 import br.com.devcave.recruiters.exception.RecruitersGenericException;
 import br.com.devcave.recruiters.service.AreaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import br.com.devcave.recruiters.repository.CandidateRepository;
-import br.com.devcave.recruiters.domain.Candidate;
 import br.com.devcave.recruiters.service.CandidateService;
-import br.com.devcave.recruiters.dto.CandidateFilter;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.*;
 
 @Controller
 @RequestMapping(CandidateController.CANDIDATE_BASE)
@@ -44,8 +42,10 @@ public class CandidateController extends BaseController {
     @Autowired
     private AreaService areaService;
 
+    @Autowired
+    private CacheManager cacheManager;
 
-    @RequestMapping(value = {"", CANDIDATE_DEFAULT, CANDIDATE_SEARCH}, method = RequestMethod.GET)
+    @RequestMapping(value = { "", CANDIDATE_DEFAULT, CANDIDATE_SEARCH }, method = RequestMethod.GET)
     public ModelAndView search(CandidateFilter candidateFilter, Boolean search) {
         ModelAndView modelAndView = new ModelAndView(CANDIDATE_SEARCH_RESOURCE);
         modelAndView.addObject("areaList", areaService.findAll());
@@ -65,17 +65,18 @@ public class CandidateController extends BaseController {
     }
 
     @RequestMapping(value = CANDIDATE_NEW, method = RequestMethod.POST)
-    public ModelAndView saveCandidate(MultipartFile curriculum, @Valid CandidateForm candidateForm, BindingResult result,
-                                      HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public ModelAndView saveCandidate(MultipartFile curriculum, @Valid CandidateForm candidateForm,
+            BindingResult result,
+            HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             List<String> errorList = new ArrayList<>();
-            result.getAllErrors().forEach(e->errorList.add(e.getDefaultMessage()));
-            request.setAttribute(ERROR_MESSAGES,errorList);
+            result.getAllErrors().forEach(e -> errorList.add(e.getDefaultMessage()));
+            request.setAttribute(ERROR_MESSAGES, errorList);
             return newCandidate(candidateForm);
         }
         try {
             candidateService.save(candidateForm, curriculum);
-        }catch(RecruitersGenericException e){
+        } catch (RecruitersGenericException e) {
             request.setAttribute(ERROR_MESSAGES, Collections.singletonList(e.getMessage()));
             return newCandidate(candidateForm);
         }
@@ -84,6 +85,5 @@ public class CandidateController extends BaseController {
 
         return new ModelAndView("redirect:" + CANDIDATE_BASE + CANDIDATE_SEARCH);
     }
-
 
 }
