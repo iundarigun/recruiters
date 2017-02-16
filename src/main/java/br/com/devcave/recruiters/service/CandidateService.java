@@ -9,5 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface CandidateService {
     Page<CandidateVO> search(CandidateFilter candidateFilter);
 
+    CandidateVO getDetails(Long id);
+
     void save(CandidateForm candidateForm, MultipartFile curriculum);
 }

@@ -25,14 +25,20 @@
         <div class="form-group">
             <label th:for="name" th:text="#{recruiters.candidate.name-lastname}"/>
             <input type="text" th:field="*{name}" class="form-control" maxlength="255"/>
+            <span class="text-danger" th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}"></span>
         </div>
         <div class="form-group">
             <label th:for="email" th:text="#{recruiters.candidate.email}"/>
             <input type="text" th:field="*{email}" class="form-control" maxlength="255"/>
+            <span class="text-danger" th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}"></span>
         </div>
         <div class="form-group">
             <label th:for="phoneNumber" th:text="#{recruiters.candidate.phone-number}"/>
             <input type="text" th:field="*{phoneNumber}" class="form-control" maxlength="20"/>
+            <span class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}"
+                  th:errors="*{phoneNumber}"></span>
         </div>
         <div class="form-group">
             <label for="curriculum" th:text="#{recruiters.candidate.curriculum}"/>
@@ -40,10 +46,13 @@
         </div>
         <div class="form-group">
             <th:block th:each="area : ${areaList}">
-                <label class="checkbox-inline" th:for="${#ids.next('area')}"
-                       th:text="${area.name}"/>
+                <label class="checkbox-inline" th:for="${#ids.next('area')}">
                 <input type="checkbox" th:field="*{area}" th:value="${area.id}"/>
+                    <span th:text="${area.name}"></span>
+                </label>
             </th:block>
+            <p class="text-danger" th:if="${#fields.hasErrors('area')}"
+                  th:errors="*{area}"></p>
         </div>
         <button type="submit" th:text="#{recruiters.generic.save}" class="btn btn-success"/>
     </form>

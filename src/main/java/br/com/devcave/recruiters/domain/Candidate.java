@@ -4,20 +4,32 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import br.com.devcave.recruiters.dto.CandidateForm;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.NotBlank;
-
+import br.com.devcave.recruiters.dto.CandidateVO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "candidate")
 @Getter
+@Setter
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class Candidate extends BaseEntity {
@@ -54,7 +66,7 @@ public class Candidate extends BaseEntity {
     @Column(name = "fil_curriculum")
     private byte[] curriculum;
 
-    @ManyToMany(cascade = CascadeType.REFRESH)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "CANDIDATE_AREA", //
             joinColumns = { @JoinColumn(name = "id_candidate", referencedColumnName = "id_candidate") }, //
             inverseJoinColumns = { @JoinColumn(name = "id_area", referencedColumnName = "id_area") })
@@ -75,12 +87,19 @@ public class Candidate extends BaseEntity {
         this.skypeUser = candidateForm.getSkypeUser();
     }
 
-
-
-    public void updateCurriculum(String fileName, byte[] curriculum){
-       this.fileName = fileName;
-       this.curriculum = curriculum;
+    public void updateCurriculum(String fileName, byte[] curriculum) {
+        this.fileName = fileName;
+        this.curriculum = curriculum;
     }
 
+    public CandidateVO getCandidateVO(){
+        CandidateVO candidateVO = new CandidateVO();
+        candidateVO.setId(this.id);
+        candidateVO.setName(this.name);
+        candidateVO.setEmail(this.email);
+        candidateVO.setSkype(this.skypeUser);
+        candidateVO.setPhoneNumber(this.phoneNumber);
+        return candidateVO;
+    }
 
 }

@@ -1,16 +1,16 @@
 package br.com.devcave.recruiters.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import br.com.devcave.recruiters.dto.CandidateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +35,7 @@ public class CandidateController extends BaseController {
 
     private static final String CANDIDATE_SEARCH_RESOURCE = "candidate/search";
     private static final String CANDIDATE_NEW_RESOURCE = "candidate/new";
+    private static final String CANDIDATE_DETAILS_RESOURCE = "candidate/details";
 
     @Autowired
     private CandidateService candidateService;
@@ -69,9 +70,8 @@ public class CandidateController extends BaseController {
             BindingResult result,
             HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            List<String> errorList = new ArrayList<>();
-            result.getAllErrors().forEach(e -> errorList.add(e.getDefaultMessage()));
-            request.setAttribute(ERROR_MESSAGES, errorList);
+            request.setAttribute(ERROR_MESSAGES,
+                    Collections.singletonList(getMessage("recruiters.generic.error-validation")));
             return newCandidate(candidateForm);
         }
         try {
@@ -84,6 +84,12 @@ public class CandidateController extends BaseController {
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, getMessage("recruiters.candidate.new.success"));
 
         return new ModelAndView("redirect:" + CANDIDATE_BASE + CANDIDATE_SEARCH);
+    }
+
+    @RequestMapping(value = CANDIDATE_DETAILS + "/{id}")
+    public ModelAndView detailsCandidate(@PathVariable("id") Long id) {
+        CandidateVO candidate = candidateService.getDetails(id);
+        return new ModelAndView(CANDIDATE_DETAILS_RESOURCE);
     }
 
 }

@@ -1,25 +1,23 @@
 package br.com.devcave.recruiters.service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.devcave.recruiters.domain.Area;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import br.com.devcave.recruiters.domain.Candidate;
+import br.com.devcave.recruiters.dto.CandidateFilter;
 import br.com.devcave.recruiters.dto.CandidateForm;
 import br.com.devcave.recruiters.dto.CandidateVO;
 import br.com.devcave.recruiters.exception.CurriculumException;
 import br.com.devcave.recruiters.exception.EmailAlreadyExistsException;
 import br.com.devcave.recruiters.repository.AreaRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import br.com.devcave.recruiters.domain.Candidate;
-import br.com.devcave.recruiters.dto.CandidateFilter;
 import br.com.devcave.recruiters.repository.CandidateRepository;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,6 +33,12 @@ public class CandidateServiceImpl implements CandidateService {
     public Page<CandidateVO> search(CandidateFilter filterVO) {
 
         return candidateRepository.findByFilter(filterVO);
+    }
+
+    @Override
+    public CandidateVO getDetails(final Long id) {
+        Candidate candidate = candidateRepository.findOne(id);
+        return candidate.getCandidateVO();
     }
 
     @Override
@@ -56,7 +60,8 @@ public class CandidateServiceImpl implements CandidateService {
             candidate = candidateRepository.findOne(candidateForm.getId());
         }
         candidate.updateBasicInformations(candidateForm);
-        candidate.addAreas(candidateForm.getArea().stream().map(a -> areaRepository.findOne(a)).collect(Collectors.toList()));
+        candidate.addAreas(
+                candidateForm.getArea().stream().map(a -> areaRepository.findOne(a)).collect(Collectors.toList()));
         try {
             if (curriculum != null) {
                 candidate.updateCurriculum(curriculum.getName(), curriculum.getBytes());

@@ -23,7 +23,7 @@
             <input type="text" th:field="*{email}" class="form-control" maxlength="255"/>
         </div>
         <div class="form-group">
-            <label th:for="area" th:text="#{recruiters.candidate.area}"/>>
+            <label th:for="area" th:text="#{recruiters.candidate.area}"/>
             <select class="form-control" th:field="*{area}">
                 <option value="" th:text="Todos"/>
                 <option th:each="area : ${areaList}"
@@ -42,14 +42,20 @@
     <span th:unless="${resultList.hasContent()}" th:text="#{recruiters.generic.no-results}"/>
     <table th:if="${resultList.hasContent()}" class="table table-bordered table-striped table-hover">
         <tr>
+            <th />
             <th th:text="#{recruiters.candidate.name}"/>
             <th th:text="#{recruiters.candidate.email}"/>
             <th th:text="#{recruiters.candidate.phone-number}"/>
+            <th />
         </tr>
         <tr th:each="candidate : ${resultList.content}">
+            <td th:text="${candidate.id }"/>
             <td th:text="${candidate.name }"/>
             <td th:text="${candidate.email }"/>
             <td th:text="${candidate.phoneNumber}"/>
+            <td>
+                <a th:href="@{/candidate/details/} + ${candidate.id}" th:text="#{recruiters.generic.details}" />
+            </td>
         </tr>
     </table>
 </div>
