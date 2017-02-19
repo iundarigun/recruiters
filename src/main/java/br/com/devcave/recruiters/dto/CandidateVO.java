@@ -11,4 +11,5 @@ public class CandidateVO {
     private String email;
     private String phoneNumber;
     private String skype;
+
 }

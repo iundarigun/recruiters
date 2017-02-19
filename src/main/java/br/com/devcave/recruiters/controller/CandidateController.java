@@ -32,6 +32,8 @@ public class CandidateController extends BaseController {
     private static final String CANDIDATE_SEARCH = "/search";
     private static final String CANDIDATE_NEW = "/new";
     private static final String CANDIDATE_DETAILS = "/details";
+    private static final String CANDIDATE_UPDATE = "/update";
+    private static final String CANDIDATE_CURRICULUM = "/curriculum";
 
     private static final String CANDIDATE_SEARCH_RESOURCE = "candidate/search";
     private static final String CANDIDATE_NEW_RESOURCE = "candidate/new";
@@ -46,7 +48,7 @@ public class CandidateController extends BaseController {
     @Autowired
     private CacheManager cacheManager;
 
-    @RequestMapping(value = { "", CANDIDATE_DEFAULT, CANDIDATE_SEARCH }, method = RequestMethod.GET)
+    @RequestMapping(value = {"", CANDIDATE_DEFAULT, CANDIDATE_SEARCH}, method = RequestMethod.GET)
     public ModelAndView search(CandidateFilter candidateFilter, Boolean search) {
         ModelAndView modelAndView = new ModelAndView(CANDIDATE_SEARCH_RESOURCE);
         modelAndView.addObject("areaList", areaService.findAll());
@@ -67,8 +69,8 @@ public class CandidateController extends BaseController {
 
     @RequestMapping(value = CANDIDATE_NEW, method = RequestMethod.POST)
     public ModelAndView saveCandidate(MultipartFile curriculum, @Valid CandidateForm candidateForm,
-            BindingResult result,
-            HttpServletRequest request, RedirectAttributes redirectAttributes) {
+                                      BindingResult result,
+                                      HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             request.setAttribute(ERROR_MESSAGES,
                     Collections.singletonList(getMessage("recruiters.generic.error-validation")));
@@ -88,8 +90,43 @@ public class CandidateController extends BaseController {
 
     @RequestMapping(value = CANDIDATE_DETAILS + "/{id}")
     public ModelAndView detailsCandidate(@PathVariable("id") Long id) {
-        CandidateVO candidate = candidateService.getDetails(id);
-        return new ModelAndView(CANDIDATE_DETAILS_RESOURCE);
+        CandidateForm candidateForm =candidateService.getDetails(id);
+        ModelAndView modelAndView = detailsCandidate(candidateForm);
+        modelAndView.addObject("candidateForm", candidateForm);
+        return modelAndView;
     }
 
+    protected ModelAndView detailsCandidate(CandidateForm candidateForm) {
+        ModelAndView modelAndView = new ModelAndView(CANDIDATE_DETAILS_RESOURCE);
+        modelAndView.addObject("areaList", areaService.findAll());
+
+        return modelAndView;
+
+    }
+
+    @RequestMapping(value = CANDIDATE_UPDATE, method = RequestMethod.POST)
+    public ModelAndView updateCandidate(MultipartFile curriculum, @Valid CandidateForm candidateForm,
+                                      BindingResult result,
+                                      HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            request.setAttribute(ERROR_MESSAGES,
+                    Collections.singletonList(getMessage("recruiters.generic.error-validation")));
+            return detailsCandidate(candidateForm);
+        }
+        try {
+            candidateService.save(candidateForm, curriculum);
+        } catch (RecruitersGenericException e) {
+            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(e.getMessage()));
+            return detailsCandidate(candidateForm);
+        }
+
+        redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, getMessage("recruiters.candidate.update.success"));
+
+        return new ModelAndView("redirect:" + CANDIDATE_BASE + CANDIDATE_SEARCH);
+    }
+
+    @RequestMapping(value = CANDIDATE_CURRICULUM + "/{id}")
+    public String getCurriculum(@PathVariable("id") Long id) {
+        return null;
+    }
 }

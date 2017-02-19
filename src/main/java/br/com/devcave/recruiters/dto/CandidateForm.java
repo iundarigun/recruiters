@@ -1,9 +1,11 @@
 package br.com.devcave.recruiters.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Size;
 
+import br.com.devcave.recruiters.domain.Candidate;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -33,5 +35,14 @@ public class CandidateForm {
     @Size(max = 255)
     private String skypeUser;
     @NotEmpty
-    private List<Long> area;
+    private List<Long> area = new ArrayList<>();
+
+    public void update(CandidateForm other){
+        this.id = other.id;
+        this.name = other.name;
+        this.email=other.email;
+        this.phoneNumber=other.phoneNumber;
+        this.skypeUser = other.skypeUser;
+        this.area = other.area;
+    }
 }

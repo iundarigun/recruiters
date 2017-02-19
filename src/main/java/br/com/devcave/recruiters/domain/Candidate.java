@@ -92,14 +92,15 @@ public class Candidate extends BaseEntity {
         this.curriculum = curriculum;
     }
 
-    public CandidateVO getCandidateVO(){
-        CandidateVO candidateVO = new CandidateVO();
-        candidateVO.setId(this.id);
-        candidateVO.setName(this.name);
-        candidateVO.setEmail(this.email);
-        candidateVO.setSkype(this.skypeUser);
-        candidateVO.setPhoneNumber(this.phoneNumber);
-        return candidateVO;
+    public CandidateForm getCandidateForm(){
+        CandidateForm candidateForm = new CandidateForm();
+        candidateForm.setId(this.id);
+        candidateForm.setName(this.name);
+        candidateForm.setEmail(this.email);
+        candidateForm.setSkypeUser(this.skypeUser);
+        candidateForm.setPhoneNumber(this.phoneNumber);
+        this.areaList.forEach(a->candidateForm.getArea().add(a.getId()));
+        return candidateForm;
     }
 
 }

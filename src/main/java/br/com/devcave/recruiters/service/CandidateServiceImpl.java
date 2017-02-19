@@ -36,9 +36,9 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public CandidateVO getDetails(final Long id) {
+    public CandidateForm getDetails(final Long id) {
         Candidate candidate = candidateRepository.findOne(id);
-        return candidate.getCandidateVO();
+        return candidate.getCandidateForm();
     }
 
     @Override
