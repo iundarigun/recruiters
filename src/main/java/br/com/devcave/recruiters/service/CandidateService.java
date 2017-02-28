@@ -12,4 +12,6 @@ public interface CandidateService {
     CandidateForm getDetails(Long id);
 
     void save(CandidateForm candidateForm, MultipartFile curriculum);
+
+    byte[] getCurriculum(Long id);
 }

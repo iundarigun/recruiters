@@ -1,8 +1,12 @@
 package br.com.devcave.recruiters.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import br.com.devcave.recruiters.dto.CandidateVO;
@@ -79,7 +83,7 @@ public class CandidateController extends BaseController {
         try {
             candidateService.save(candidateForm, curriculum);
         } catch (RecruitersGenericException e) {
-            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(e.getMessage()));
+            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(getMessage(e.getMessage())));
             return newCandidate(candidateForm);
         }
 
@@ -90,7 +94,7 @@ public class CandidateController extends BaseController {
 
     @RequestMapping(value = CANDIDATE_DETAILS + "/{id}")
     public ModelAndView detailsCandidate(@PathVariable("id") Long id) {
-        CandidateForm candidateForm =candidateService.getDetails(id);
+        CandidateForm candidateForm = candidateService.getDetails(id);
         ModelAndView modelAndView = detailsCandidate(candidateForm);
         modelAndView.addObject("candidateForm", candidateForm);
         return modelAndView;
@@ -99,15 +103,14 @@ public class CandidateController extends BaseController {
     protected ModelAndView detailsCandidate(CandidateForm candidateForm) {
         ModelAndView modelAndView = new ModelAndView(CANDIDATE_DETAILS_RESOURCE);
         modelAndView.addObject("areaList", areaService.findAll());
-
         return modelAndView;
 
     }
 
     @RequestMapping(value = CANDIDATE_UPDATE, method = RequestMethod.POST)
     public ModelAndView updateCandidate(MultipartFile curriculum, @Valid CandidateForm candidateForm,
-                                      BindingResult result,
-                                      HttpServletRequest request, RedirectAttributes redirectAttributes) {
+                                        BindingResult result,
+                                        HttpServletRequest request, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             request.setAttribute(ERROR_MESSAGES,
                     Collections.singletonList(getMessage("recruiters.generic.error-validation")));
@@ -116,7 +119,7 @@ public class CandidateController extends BaseController {
         try {
             candidateService.save(candidateForm, curriculum);
         } catch (RecruitersGenericException e) {
-            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(e.getMessage()));
+            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(getMessage(e.getMessage())));
             return detailsCandidate(candidateForm);
         }
 
@@ -126,7 +129,23 @@ public class CandidateController extends BaseController {
     }
 
     @RequestMapping(value = CANDIDATE_CURRICULUM + "/{id}")
-    public String getCurriculum(@PathVariable("id") Long id) {
+    public ModelAndView getCurriculum(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+        byte[] curriculum = candidateService.getCurriculum(id);
+        if (curriculum == null || curriculum.length == 0) {
+            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(getMessage("recruiters.candidate.curriculum.get-error")));
+            return detailsCandidate(id);
+        }
+
+        OutputStream out = null;
+
+        try {
+            out = response.getOutputStream();
+            out.write(curriculum);
+            out.flush();
+        } catch (IOException e) {
+            request.setAttribute(ERROR_MESSAGES, Collections.singletonList(getMessage("recruiters.candidate.curriculum.get-error")));
+            return detailsCandidate(id);
+        }
         return null;
     }
 }

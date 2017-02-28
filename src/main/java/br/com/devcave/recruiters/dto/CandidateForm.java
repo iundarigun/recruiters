@@ -26,14 +26,20 @@ public class CandidateForm {
     @NotBlank(message = "{recruiters.candidate.validation.name.empty}")
     @Size(max = 255)
     private String name;
+
     @Email
     @NotBlank
     @Size(max = 255)
     private String email;
+
     @Size(max = 20)
     private String phoneNumber;
+
     @Size(max = 255)
     private String skypeUser;
+
+    private Boolean hasCurriculum;
+
     @NotEmpty
     private List<Long> area = new ArrayList<>();
 

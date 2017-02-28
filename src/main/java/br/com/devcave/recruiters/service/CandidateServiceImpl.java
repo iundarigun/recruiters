@@ -51,7 +51,7 @@ public class CandidateServiceImpl implements CandidateService {
                 candidateRepository.countByEmailIgnoreCase(candidateForm.getEmail()) : //
                 candidateRepository.countByEmailIgnoreCaseAndIdNot(candidateForm.getEmail(), candidateForm.getId()));
         if (count > 0) {
-            throw new EmailAlreadyExistsException("O email já existe");
+            throw new EmailAlreadyExistsException("recruiters.candidate.email.already-exists");
         }
         // Validar se precisa criar ou recuperar
         if (candidateForm.getId() == null) {
@@ -71,5 +71,10 @@ public class CandidateServiceImpl implements CandidateService {
             throw new CurriculumException();
         }
         candidateRepository.save(candidate);
+    }
+
+    @Override
+    public byte[] getCurriculum(Long id) {
+        return candidateRepository.getCurriculumById(id);
     }
 }

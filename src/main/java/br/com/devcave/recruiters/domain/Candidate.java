@@ -68,8 +68,8 @@ public class Candidate extends BaseEntity {
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "CANDIDATE_AREA", //
-            joinColumns = { @JoinColumn(name = "id_candidate", referencedColumnName = "id_candidate") }, //
-            inverseJoinColumns = { @JoinColumn(name = "id_area", referencedColumnName = "id_area") })
+            joinColumns = {@JoinColumn(name = "id_candidate", referencedColumnName = "id_candidate")}, //
+            inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
     private Set<Area> areaList = new HashSet<>();
 
     public void addAreas(List<Area> area) {
@@ -92,14 +92,15 @@ public class Candidate extends BaseEntity {
         this.curriculum = curriculum;
     }
 
-    public CandidateForm getCandidateForm(){
+    public CandidateForm getCandidateForm() {
         CandidateForm candidateForm = new CandidateForm();
         candidateForm.setId(this.id);
         candidateForm.setName(this.name);
         candidateForm.setEmail(this.email);
         candidateForm.setSkypeUser(this.skypeUser);
         candidateForm.setPhoneNumber(this.phoneNumber);
-        this.areaList.forEach(a->candidateForm.getArea().add(a.getId()));
+        candidateForm.setHasCurriculum(this.curriculum != null && this.curriculum.length>0);
+        this.areaList.forEach(a -> candidateForm.getArea().add(a.getId()));
         return candidateForm;
     }
 
