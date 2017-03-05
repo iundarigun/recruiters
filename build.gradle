@@ -24,6 +24,7 @@ compileJava.options.encoding = 'UTF-8'
 
 ext{
 	lombokVersion = '1.16.12'
+	h2Version = '1.0.60'
 	mysqlVersion = '6.0.5'
 	slf4jVersion = '1.7.22'
 	swaggerVersion = '2.6.1'
@@ -46,6 +47,7 @@ dependencies {
 	compile('org.springframework:spring-context-support')
 
 	compile group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+	compile group: 'com.h2database', name: 'h2', version: h2Version
 	compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
 	compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
