@@ -1,0 +1,147 @@
+/*
+ * Base structure
+ */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body {
+  overflow-x:hidden;
+  padding-top: 50px;
+  background:#f3f3f3;
+  color: #414141;
+}
+
+.container{
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.content{
+    padding: 10px 0;
+}
+
+.panel-default > .panel-heading {
+    color: #fff;
+    background: #07425f;
+    border-color: #ddd;
+}
+
+.btn-primary, .btn-primary:focus{
+    background:#07425f;
+    border-color:#04293b;
+    color:#fff;
+    outline: none;
+}
+
+.btn-primary:hover{
+    background:#04293b;
+    border-color:#07425f;
+    color:#fff;
+}
+
+/*
+ * Login
+ */
+
+.login-box{
+  border:1px solid #ccc;
+  padding: 5px;
+}
+
+
+.login-logo{
+  text-align: center;
+  padding:40px 0;
+}
+
+/*
+ * Layout
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sub-header a{
+    margin-left: 10px;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+
+.navbar-fixed-top {
+  border: 0;
+}
+
+.navbar-default {
+    border-radius: 0;
+    background: #063850;
+    border-bottom:1px solid #04293b;
+    padding-right:15px;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #f3f3f3;
+    background: #04293b;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  background: #07425f;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #04293b;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.sidebar .title {
+  margin-top:-10px;
+  color: #ffffff;
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+  color: #f3f3f3;
+  border-bottom:1px solid #04293b;
+}
+
+
+.nav-sidebar > li > a > span {
+  margin-right: 20px;
+}
+
+.nav-sidebar > li > a:hover,
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #f8f8f8;
+  background: #04293b;
+}
+
+.main {
+  padding: 20px;
+}

@@ -1,0 +1,6 @@
+<div th:if="${ERROR_MESSAGES != null and !ERROR_MESSAGES.isEmpty()}">
+    <th:block th:each="error : ${ERROR_MESSAGES}">
+        <div th:text="*{error}" class="alert alert-danger"/>
+    </th:block>
+</div>
+<div th:if="${SUCCESS_MESSAGE != null}" th:text="${SUCCESS_MESSAGE}" class="alert alert-success"/>

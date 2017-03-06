@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <title>Recruiters</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>
+        <th:block th:text="#{recruiters.generic.title}"/>
+    </title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/webjars/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="/static/css/main.css" rel="stylesheet"/>
 </head>
 <body>
-    <h1>Olá Dev Cave!</h1>
+<div class="">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><img src="/static/img/s2it_white.svg" alt="Painel" style="width:80px; height:auto;" /></h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" method="POST" action="{{ url('/login') }}">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Email" name="email" type="text" autofocus="autofocus" />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Password" name="password" type="password" value="" />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            <a class="btn btn-link" href="#">Perdeu sua senha?</a>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

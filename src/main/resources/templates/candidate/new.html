@@ -2,63 +2,66 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>
-        <th:block th:text="#{recruiters.generic.title}"/>
-        -
-        <th:block th:text="#{recruiters.candidate.new}"/>
-    </title>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
-</head>
+<head th:include="shared/head_main"></head>
 <body>
-<div class="container">
-    <div th:if="${ERROR_MESSAGES != null and !ERROR_MESSAGES.isEmpty()}">
-        <th:block th:each="error : ${ERROR_MESSAGES}">
-            <div th:text="*{error}" class="alert alert-danger"/>
-        </th:block>
+<header  th:include="shared/header_main"></header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <div th:include="shared/nav_main"></div>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div th:include="shared/messages"></div>
+            <div class="container">
+                <header class="sub-header">
+                    <h1>
+                        <span th:text="#{recruiters.candidate.new}">Titulo</span>
+                    </h1>
+                </header>
+                <div class="content">
+                    <form method="post" th:action="@{/candidate/new}" th:object="${candidateForm}"
+                          enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label th:for="name" th:text="#{recruiters.candidate.name-lastname}"/>
+                            <input type="text" th:field="*{name}" class="form-control" maxlength="255"/>
+                            <span class="text-danger" th:if="${#fields.hasErrors('name')}"
+                                  th:errors="*{name}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="email" th:text="#{recruiters.candidate.email}"/>
+                            <input type="text" th:field="*{email}" class="form-control" maxlength="255"/>
+                            <span class="text-danger" th:if="${#fields.hasErrors('email')}"
+                                  th:errors="*{email}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="phoneNumber" th:text="#{recruiters.candidate.phone-number}"/>
+                            <input type="text" th:field="*{phoneNumber}" class="form-control" maxlength="20"/>
+                            <span class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}"
+                                  th:errors="*{phoneNumber}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="curriculum" th:text="#{recruiters.candidate.curriculum}"/>
+                            <input type="file" id="curriculum" name="curriculum" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <th:block th:each="area : ${areaList}">
+                                <label class="checkbox-inline" th:for="${#ids.next('area')}">
+                                <input type="checkbox" th:field="*{area}" th:value="${area.id}"/>
+                                    <span th:text="${area.name}"></span>
+                                </label>
+                            </th:block>
+                            <p class="text-danger" th:if="${#fields.hasErrors('area')}"
+                                  th:errors="*{area}"></p>
+                        </div>
+                        <button type="submit" th:text="#{recruiters.generic.save}" class="btn btn-success"/>
+                        <a class="btn btn-default" th:href="@{/candidate/search}" th:text="#{recruiters.generic.return}"></a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <h1 th:text="#{recruiters.candidate.new}"/>
-    <form method="post" th:action="@{/candidate/new}" th:object="${candidateForm}"
-          enctype="multipart/form-data">
-        <div class="form-group">
-            <label th:for="name" th:text="#{recruiters.candidate.name-lastname}"/>
-            <input type="text" th:field="*{name}" class="form-control" maxlength="255"/>
-            <span class="text-danger" th:if="${#fields.hasErrors('name')}"
-                  th:errors="*{name}"></span>
-        </div>
-        <div class="form-group">
-            <label th:for="email" th:text="#{recruiters.candidate.email}"/>
-            <input type="text" th:field="*{email}" class="form-control" maxlength="255"/>
-            <span class="text-danger" th:if="${#fields.hasErrors('email')}"
-                  th:errors="*{email}"></span>
-        </div>
-        <div class="form-group">
-            <label th:for="phoneNumber" th:text="#{recruiters.candidate.phone-number}"/>
-            <input type="text" th:field="*{phoneNumber}" class="form-control" maxlength="20"/>
-            <span class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}"
-                  th:errors="*{phoneNumber}"></span>
-        </div>
-        <div class="form-group">
-            <label for="curriculum" th:text="#{recruiters.candidate.curriculum}"/>
-            <input type="file" id="curriculum" name="curriculum" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <th:block th:each="area : ${areaList}">
-                <label class="checkbox-inline" th:for="${#ids.next('area')}">
-                <input type="checkbox" th:field="*{area}" th:value="${area.id}"/>
-                    <span th:text="${area.name}"></span>
-                </label>
-            </th:block>
-            <p class="text-danger" th:if="${#fields.hasErrors('area')}"
-                  th:errors="*{area}"></p>
-        </div>
-        <button type="submit" th:text="#{recruiters.generic.save}" class="btn btn-success"/>
-        <a class="btn btn-default" th:href="@{/candidate/search}" th:text="#{recruiters.generic.return}"></a>
-    </form>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<footer th:include="shared/footer_main"></footer>
 </body>
 </html>
